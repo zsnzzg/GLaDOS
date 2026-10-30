@@ -4,42 +4,51 @@ author: Linsar
 icon: antenna.radiowaves.left.and.right
 
 compat_arguments:
-  exchangePoints: "100"
   CRON: "10 7 * * *"
 
 compat_arguments_desc: |
   CRON：签到定时表达式，默认 10 7 * * *（每天 07:10）。
-  exchangePoints：兑换积分档位，可选 100、200、500，默认 100。
+  积分兑换档位请在模块环境变量中选择，默认 100。
   首次使用：登录后访问对应账号页面以抓取 Cookie。
   GLaDOS / Railgun：/console/account
   NodeLoc、NodeSeek、LinuxDO：账户设置页面。
   同一域名可保存多个账号的 Cookie。
 
+env_schema:
+  exchangePoints:
+    name: 积分兑换档位
+    description: 选择积分达到多少时自动兑换；未设置时默认 100。
+    default_value: "100"
+    options:
+      - "100"
+      - "200"
+      - "500"
+
 scriptings:
   - http_request:
       name: GLaDOS Cookie 抓取
       match: '^https://(glados\.network|railgun\.info|glados\.vip|glados\.one|glados\.space)/console/account$'
-      script_url: https://raw.githubusercontent.com/Linsars/Surge/main/JS/glados.js
+      script_url: https://raw.githubusercontent.com/zsnzzg/GLaDOS/main/glados.js
       timeout: 10
   - http_request:
       name: NodeLoc Cookie 抓取
       match: '^https://www\.nodeloc\.com/(my/preferences|u/[^/]+/preferences/account)'
-      script_url: https://raw.githubusercontent.com/Linsars/Surge/main/JS/glados.js
+      script_url: https://raw.githubusercontent.com/zsnzzg/GLaDOS/main/glados.js
       timeout: 10
   - http_request:
       name: NodeSeek Cookie 抓取
       match: '^https://nodeseek\.cc/(my/preferences|u/[^/]+/preferences/account)'
-      script_url: https://raw.githubusercontent.com/Linsars/Surge/main/JS/glados.js
+      script_url: https://raw.githubusercontent.com/zsnzzg/GLaDOS/main/glados.js
       timeout: 10
   - http_request:
       name: LinuxDO Cookie 抓取
       match: '^https://linux\.do/(my/preferences|u/[^/]+/preferences/account)'
-      script_url: https://raw.githubusercontent.com/Linsars/Surge/main/JS/glados.js
+      script_url: https://raw.githubusercontent.com/zsnzzg/GLaDOS/main/glados.js
       timeout: 10
   - schedule:
       name: GLaDOS 自动签到
       cron: "{{{CRON}}}"
-      script_url: https://raw.githubusercontent.com/Linsars/Surge/main/JS/glados.js
+      script_url: https://raw.githubusercontent.com/zsnzzg/GLaDOS/main/glados.js
       timeout: 120
 
 mitm:
