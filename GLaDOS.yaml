@@ -1,12 +1,14 @@
 name: GLaDOS 自动签到
-description: GLaDOS / Railgun 自动签到与积分兑换，并抓取 NodeLoc、NodeSeek、LinuxDO Cookie（原脚本暂不支持论坛自动阅读）；每天 07:10 执行。
+description: GLaDOS / Railgun 自动签到与积分兑换，并抓取 NodeLoc、NodeSeek、LinuxDO Cookie（原脚本暂不支持论坛自动阅读）；默认每天 07:10 执行，可调整签到时间。
 author: Linsar
 icon: antenna.radiowaves.left.and.right
 
 compat_arguments:
   exchangePoints: "100"
+  CRON: "10 7 * * *"
 
 compat_arguments_desc: |
+  CRON：签到定时表达式，默认 10 7 * * *（每天 07:10）。
   exchangePoints：兑换积分档位，可选 100、200、500，默认 100。
   首次使用：登录后访问对应账号页面以抓取 Cookie。
   GLaDOS / Railgun：/console/account
@@ -36,7 +38,7 @@ scriptings:
       timeout: 10
   - schedule:
       name: GLaDOS 自动签到
-      cron: "10 7 * * *"
+      cron: "{{{CRON}}}"
       script_url: https://raw.githubusercontent.com/Linsars/Surge/main/JS/glados.js
       timeout: 120
 
